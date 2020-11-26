@@ -195,11 +195,9 @@ class AdminController {
     fs.writeFile(t,JSON.stringify({"data":items}), (err) => {
       if (err) throw err;
       global.myCategory = items;
-      return res.redirect('/admin/admin/createCategory');       
+      return res.redirect('/admin/product/createCategory');       
     }); 
 
-   
-    
   
   }
   categoryDelete(req, res) {

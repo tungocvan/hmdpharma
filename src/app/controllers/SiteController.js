@@ -25,7 +25,7 @@ class SiteController {
       product = productAll;
     }
     let category = readJson(tCategory);  
-    let applCate = getCategoryByName(category);  
+    let applCate = getCategoryByName(category,'my-pham');  
     global.product = product;
     global.applCate = applCate;
     res.render('home',{ layout : 'layoutWebsite' ,product,applCate});

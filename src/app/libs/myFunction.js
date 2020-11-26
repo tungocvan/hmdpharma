@@ -46,8 +46,8 @@ function ChangeToSlug(title)
         return slug;
 }
 
-function getCategoryByName(cateObj) {
-  let idcate = cateObj.find(value => value.name === 'Apple'); 
+function getCategoryByName(cateObj,str) {
+  let idcate = cateObj.find(value => value.slug === str); 
   let applCate = cateObj.filter(value => value.prasent == idcate.id);
   applCate.unshift(idcate);
   return applCate;
