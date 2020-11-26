@@ -1,0 +1,158 @@
+{{#if editMenu}}
+<div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-xl-4">
+                <div class="checkout-form"> 
+                    {{#if item.id}}
+                    <form method="POST" action="/admin/menuTop/{{item.id}}/update">           
+                    {{else}}
+                    <form method="POST" action="/admin/menuTop/0/update"> 
+                    {{/if}}
+                        <div class="single-checkout-box mt-4">
+                            <input type="text" placeholder="Tên Danh mục sản phẩm" name="name" style="width:100%" value="{{item.name}}">                                                                                       
+                        </div>
+                        <div class="single-checkout-box">                            
+                            <input type="text" placeholder="Slug" name="slug" style="width:100%" value="{{item.slug}}">                               
+                        </div>
+                        <div class="single-checkout-box">                            
+                            <input type="text" placeholder="Link" name="href" style="width:100%" value="{{item.href}}">                               
+                        </div>
+                        <div class="single-checkout-box">                            
+                            <input type="text" placeholder="Icon" name="icon" style="width:100%" value="{{item.icon}}">                               
+                        </div>
+                        <div class="single-checkout-box"> 
+                            <label>Position</label>                           
+                            <input type="number" name="position" style="width:20%" value="{{item.position}}">                               
+                            <label>Hiển thị menu</label>
+                            <input type="checkbox" name="status" checked value="1">
+                        </div>
+                        <div class="single-checkout-box select-option">
+                            <select style="width:100%" name="parents">                            
+                                {{#ifCond item.parents "==" 0}} 
+                                    <option value="0">Danh mục cha</option>
+                                    {{#each myCategory}}
+                                        <option value="{{this.id}}">{{this.name}}</option>  
+                                    {{/each}}   
+                                 {{else}}
+                                    <option value="0">Danh mục cha</option>                               
+                                    {{#each myCategory}}
+                                        {{#ifCond this.id "==" @root.item.parents}}    
+                                        <option selected="selected" value="{{this.id}}">{{this.name}}</option> 
+                                        {{else}} 
+                                        <option value="{{this.id}}">{{this.name}}</option> 
+                                        {{/ifCond}}                                             
+                                    {{/each}} 
+                                 {{/ifCond}}    
+                                              
+                            </select>
+                        </div>
+                        <h2 class="section-title-2">Ảnh đại diện</h2> 
+                        <div class="single-checkout-box mt-2">
+                            <input id="img" type="file" onchange="fileupload(this)">
+                            <div style="position: relative;width:150px;" class="mt-2">
+                                {{#if item.slug}}
+                                <img id="preview" style="width:150px;height:150px" src="/azshopweb/images/menu-img/{{item.imgName}}">
+                                <span onclick="hideImg()"><i id="delete" style="position: absolute;right:0;top:0;padding:5px;color: cyan" class="remove__btn zmdi zmdi-close"></i></span>                                
+                                {{else}}
+                                <img id="preview" style="display:none;width:150px;height:150px">
+                                <span onclick="hideImg()"><i id="delete" style="position: absolute;right:0;top:0;padding:5px;color: cyan;display:none" class="remove__btn zmdi zmdi-close"></i></span>
+                                {{/if}} 
+                                <input type="text" id="imgName" name="imgName" value="{{item.imgName}}" hidden>
+                            </div>                            
+                        </div>
+                        <div class="contact-btn mt-2 mb-2">
+                            <button type="submit" class="fv-btn">LƯU</button>
+                        </div>
+                    </form> 
+                </div>
+            </div>
+        </div>
+</div>
+{{else}}
+
+<div class="contact-btn mt-2 mb-2" style="display: flex;">
+                              <a href="/admin/menuTop/0/edit" class="fv-btn">Thêm Menu</a>
+</div>
+<div class="table-content table-responsive mt-3">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox"/></th>
+                <th class="product-id">Id</th>
+                <th class="product-thumbnail">name</th>
+                <th class="product-name">href</th>
+                <th class="product-price">icon</th>
+                <th class="product-quantity">parents</th>
+                <th class="product-quantity">position</th>
+                <th class="product-subtotal">Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {{#each menuData}}
+            <tr>
+                <td><input type="checkbox" style="width:15px;height:15px"/></td>
+                <td>{{this.id}}</td>
+                <td>{{this.name}}</td>
+                <td>{{this.href}}</td>
+                <td>{{this.icon}}</td>
+                <td>{{this.parents}}</td>
+                <td>{{this.position}}</td>
+                        
+                <td class="product-subtotal">
+                    <a href="/admin/menuTop/{{this.id}}/edit">Edit | </a>                                  
+                    <a href="/admin/menuTop/{{this.id}}/delete">Delete</a>                                  
+                </td>
+         
+            </tr> 
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+{{/if}}
+
+<script>
+        var albumImg = [];
+        var idImg = 0;
+        var right = 0;
+        function fileupload(input){
+            //console.log('fileupload():',input.files[0].name);
+
+            var dirDes = "/public/azshopweb/images/menu-img/"; 
+            const data = input.files[0];            
+            let reader = new FileReader();    
+            reader.onload = function() {
+                var newData  = {
+                    'lastModified'     : data.lastModified,
+                    'lastModifiedDate' : data.lastModifiedDate,
+                    'name'             : data.name,
+                    'tmp_name'         : reader.result,
+                    'size'             : data.size,
+                    'type'             : data.type,
+                    'des'              : dirDes
+                };
+                var preview = document.querySelector('#preview');    
+                          
+                preview.title = data.name;
+                preview.src = reader.result;                
+                document.querySelector('#preview').style.display='inline';   
+                document.querySelector('#delete').style.display='block';
+                document.getElementById('imgName').value = data.name;
+                $.post("/admin/upload",newData,
+                    function(data,status){
+                        console.log("Data: " + data + "\nStatus: " + status);
+                });
+            }
+            reader.onerror = function() {
+                console.log('error:',reader.error);
+            };
+            if (data) reader.readAsDataURL(data);
+        }    
+
+        function hideImg(){
+             document.querySelector('#preview').style.display='none';   
+             document.querySelector('#delete').style.display='none';
+             document.querySelector('#img').value='';
+             document.querySelector('#imgName').value='';
+        }
+
+</script>

@@ -1,0 +1,38 @@
+<div class="contact-btn mt-2 mb-2" style="display: flex;">
+    <a href="/admin/account/createAccount" class="fv-btn">Thêm Tài Khoản</a>
+</div>
+<div class="table-content table-responsive mt-3">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox"/></th>
+                <th class="product-id">Id</th>
+                <th class="product-thumbnail">email</th>
+                <th class="product-thumbnail">firstName</th>
+                <th class="product-name">lastName</th>
+                <th class="product-price">phone</th>
+                <th class="product-quantity">address</th>
+                <th class="product-subtotal">Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {{#each items}}
+            <tr>
+                <td><input type="checkbox" style="width:15px;height:15px"/></td>
+                <td>{{this.id}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.firstName}}</td>
+                <td>{{this.lastName}}</td>
+                <td>{{this.phone}}</td>
+                <td>{{this.address}}</td>
+          
+                <td class="product-subtotal">
+                    <a href="/admin/account/deleteAccount/{{this.id}}">Delete | </a>
+                    <a href="/admin/account/editAccount/{{this.id}}">Edit</a>                    
+                </td>
+         
+            </tr> 
+            {{/each}}
+        </tbody>
+    </table>
+</div>

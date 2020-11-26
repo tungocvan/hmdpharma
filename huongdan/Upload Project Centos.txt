@@ -1,0 +1,101 @@
+https://kipalog.com/posts/Trien-khai-ung-dung-nodejs-len-server-Centos
+
+1. Xóa thư mục:
+rm -rf directory
+
+2. Setup 1 dự án:
+    $ cd /opt/
+    $ sudo mkdir app
+    $ sudo chown your_app_user_name app
+    $ git clone  <link git> app
+    $ cd app
+    $ npm install
+
+3. nano /etc/systemd/system/node-app-1.service
+4. nano /etc/nginx/nginx.conf 
+5. nano /etc/nginx/conf.d/tungocvan.com.conf
+systemctl daemon-reload
+6. systemctl start node-app-1 // systemctl stop node-app-1
+7. systemctl enable node-app-1
+8. sudo systemctl status node-app-1
+9. sudo systemctl restart nginx
+10. sudo journalctl -u node-app-1 // xem debug lỗi , END , nhấn ESC , alt-Q để thoát
+
+
+Xữ lý lỗi 502 Bad Getway:
+chown -R nginx:nginx /opt/app
+setenforce permissive
+
+Lưu ý lỗi khi dùng fs.writeFile không cho ghi do không có quyền
+sudo chown -R tungocvan /opt/my-app
+
+
+
+Cấu trúc 1 dịch vụ trong systemd tương đối đơn giản : trỏ domain đến project 
+nano /etc/systemd/system/ten-du-an.service
+nội dung như sau:
+
+[Service]
+ExecStart=/usr/local/n/versions/node/12.18.4/bin/node /opt/my-app/src/app.js // chỉnh phần này
+Restart=always
+#RestartSec=3
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=node-app-1 // tên dự án
+User=tungocvan
+Group=tungocvan
+Environment=NODE_ENV=production PORT=5000 // chỉnh port cần chạy
+
+[Install]
+WantedBy=multi-user.target
+
+// kết thúc file service
+
+Tạo file domain.conf
+
+nano  /etc/nginx/conf.d/node-app.conf hoặc nano /etc/nginx/conf.d/tungocvan.com.conf
+nội dung như sau:
+
+server {
+    listen 443 ssl;
+    # listen [::]:443 default_server;
+    # index index.html index.htm;
+    # Cáº¥u hinh domain á»Ÿ Ä‘Ã¢y
+    server_name tungocvan.com www.tungocvan.com; # chỉnh phần này
+    client_max_body_size 2048M;
+    root /opt/app;	# chỉnh phần này
+    # SSL
+	ssl_certificate /etc/letsencrypt/live/tungocvan.com/fullchain.pem; # chỉnh phần này
+	ssl_certificate_key /etc/letsencrypt/live/tungocvan.com/privkey.pem; # chỉnh phần này
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2; 
+	ssl_prefer_server_ciphers on; 
+	ssl_ciphers EECDH+CHACHA20:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+
+        # Improve HTTPS performance with session resumption
+        ssl_session_cache shared:SSL:50m;
+        ssl_session_timeout 1d;	
+   	ssl_dhparam /etc/ssl/certs/dhparam.pem;	
+
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
+    location / {
+        proxy_set_header Host $http_host;
+	proxy_set_header X-NginX-Proxy true;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;       
+        proxy_redirect off;
+        proxy_buffering off;
+        proxy_pass http://localhost:5000; # chỉnh phần này
+    }
+
+
+    location /public/ {
+        root /opt/app/src; # chỉnh phần này
+    }
+
+}
+
+sudo chown -R tungocvan /opt/my-app # cấp quyền
+sudo systemctl restart nginx
+systemctl restart node-app-1
+sudo systemctl status node-app-1

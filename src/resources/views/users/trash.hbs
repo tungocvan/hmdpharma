@@ -1,0 +1,147 @@
+<form class="mt-4" name="exec-user-form" method="POST" action="/users/trashAll">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="text-center">
+                <h2>Danh sách tài khoản đã bị xóa</h2>
+            </div>
+            <div class="mb-4">
+                <a href="/users" class="btn btn-outline-primary">Danh sách tài khoản</a>   
+            </div>
+            <div class="mt-2 mb-2 d-flex">
+              <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="chkAllUsers">
+              <label class="form-check-label" for="chkAllUsers">
+                Chọn tất cả
+              </label>
+              </div>
+              <select class="custom-select w-25 ml-1" name="action" required>
+                <option value="">Hành động...</option>
+                <option value="deleteAll">Xóa vĩnh viễn</option>
+                <option value="restoreAll">Khôi phục</option>
+              </select>
+              <button class="btn-primary disabled btnChkSubmit">Thực hiện</button>
+            </div>
+            <table class="table table-bordered">
+            <thead>
+                <tr>
+                <th scope="col" colspan="2">#</th>
+                <th scope="col">Tên đầy đủ</th>
+                <th scope="col">Email</th>
+                <th scope="col">Mật khẩu</th>   
+                <th scope="col">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                <tr>
+                <td>
+                    <input class="chkUsers" type="checkbox" name="usersId[]" value="{{this._id}}">    
+                </td>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.firstname}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.password}}</td>
+                <td>
+                        <a href="" class="btn-restore" data-id="{{this._id}}">Khôi phục | </a>
+                        <a href="" data-toggle="modal" data-target="#delete-user-modal" data-id="{{this._id}}">Xóa Vĩnh viễn</a></td>
+
+                </td>
+                </tr>
+                {{else}}
+                <tr>
+                  <td colspan="5">Bạn không tài khoản nào bị xóa</td>
+                </tr>        
+                {{/each}}         
+            </tbody>
+            </table>
+        </div>        
+    </div>
+ 
+</form>
+
+<form name="delete-user-form" method="POST"></form> 
+<form name="restore-user-form" method="POST"></form>
+<!-- Modal -->
+
+<div id="delete-user-modal" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa tài khoản</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc là muốn xóa tài khoản ?</p>
+      </div>
+      <div class="modal-footer">        
+        <button type="button" class="btn btn-danger" id="btn-delete-user">Xóa tài khoản</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+        var userId ;
+        var deleteForm = document.forms['delete-user-form'];
+        var btnDeleteUser = document.getElementById('btn-delete-user');
+        var execForm = $('forms[name="exec-user-form"]');
+        var btnAllUsers = $('#chkAllUsers');
+        var btnUsers = $('.chkUsers');
+        
+
+        $('#delete-user-modal').on('shown.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            userId = button.data('id');
+            
+        });   
+        btnDeleteUser.onclick  = function(){
+                deleteForm.action =`/users/${userId}/force?_method=DELETE` ;
+                deleteForm.submit();
+        }
+
+        var restoreForm = document.forms['restore-user-form'];
+        var restoreBtn = $('.btn-restore');
+        restoreBtn.click(function(e){
+            e.preventDefault();
+            var userId = $(this).data('id');
+            restoreForm.action =`/users/${userId}/restore?_method=PATCH` ;
+            restoreForm.submit();
+            //console.log('khôi phục:', $(this).data('id'));
+        })
+        
+
+        btnAllUsers.change(function(){
+          let isCheckedAll = $(this).prop('checked');
+          btnUsers.prop('checked',isCheckedAll);
+          checkAllBtn();
+          //console.log(isCheckedAll);
+        })
+        btnUsers.change(function(){
+          let isCheckedAll = btnUsers.length === $('input[name="usersId[]"]:checked').length;
+          btnAllUsers.prop('checked',isCheckedAll);
+          checkAllBtn();
+        })
+
+        function checkAllBtn(){
+            let checkedCount = $('input[name="usersId[]"]:checked').length;
+            if(checkedCount > 0) {
+              $('.btnChkSubmit').removeClass('disabled');
+            }else{
+              $('.btnChkSubmit').addClass('disabled');
+            }
+        }
+        
+        execForm.on('submit',function(e){
+              console.log(123);
+              let isSubmit = $('this').hasClass('disabled');
+              if(isSubmit){
+                e.preventDefault();
+              }
+        })
+    });
+    
+</script>

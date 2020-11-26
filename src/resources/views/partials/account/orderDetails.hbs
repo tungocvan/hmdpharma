@@ -1,0 +1,43 @@
+<section class="our-checkout-area bg__white">
+    <div class="container">
+        <div class="row">
+                <div class="our-important-note">
+                    <h2 class="section-title-3">Thông tin Đơn hàng - {{item.date}}</h2>                   
+                    <div class="table-content table-responsive mt-3">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"/></th>
+                                    <th class="product-id">Id</th>
+                                    <th class="product-thumbnail">Image</th>
+                                    <th class="product-thumbnail">Title</th>
+                                    <th class="product-thumbnail">Quantity</th>
+                                    <th class="product-name">Price</th>                    
+                                    <th class="product-quantity">total</th>
+                            
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each item.idCart}}
+                                <tr>
+                                    <td><input type="checkbox" style="width:15px;height:15px"/></td>
+                                    <td>{{this.id}}</td>
+                                    <td><img src="/azshopweb/images/product/{{this.imgName}}" alt="product img" /></td>
+                                    <td>{{this.title}}</td>
+                                    <td>{{this.quantity}}</td>
+                                    <td>{{formatMoney this.salePrice}}</td>                                    
+                                    <td>{{formatMoney this.total}}</td>                            
+                                </tr> 
+                                {{/each}}
+                                <tr>
+                                    <td colspan="7" align="right"><strong>Tổng số tiền - {{formatMoney item.totals}}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                 
+                </div>
+        </div>
+    </div>
+</section>

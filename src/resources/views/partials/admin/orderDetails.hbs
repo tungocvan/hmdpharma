@@ -1,0 +1,87 @@
+<section class="our-checkout-area bg__white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-xl-4">               
+                <div class="our-important-note">
+                    <h2 class="section-title-3">Thông tin Khách hàng</h2>
+                    <input id="idOrder" value="{{item.id}}" hidden>                   
+                    <p><i class="zmdi zmdi-caret-right-circle"></i> Họ và tên: {{item.firtName}} {{item.lastName}}</p>
+                    <p><i class="zmdi zmdi-caret-right-circle"></i> Địa chỉ: {{item.address}}</p>
+                    <p><i class="zmdi zmdi-caret-right-circle"></i> Email: {{item.email}}</p>
+                    <p><i class="zmdi zmdi-caret-right-circle"></i> Điện thoại: {{item.phone}}</p>
+                    <p><i class="zmdi zmdi-caret-right-circle"></i> Ghi chú: {{item.message}}</p>
+                    <p><i class="zmdi zmdi-caret-right-circle"></i> Trạng thái: 
+                    <select onchange="capnhatTrangthai(this)">
+                        {{#each trangthai}}
+                        {{#ifCond this "==" item.status}} 
+                        <option selected="selected" value="{{@index}}">{{this}}</option>
+                        {{else}}
+                        <option value="{{@index}}">{{this}}</option>
+                        {{/ifCond}}
+                        {{/each}}
+                    </select>
+                    </p>
+
+                </div>
+                <div class="single-checkout-box checkbox">
+                                <input id="remind-me" type="checkbox" name="sendMail">
+                                <label for="remind-me"><span>Gửi mail cho khách hàng ?</span></label>
+                </div>
+                <div id="capnhat" class="contact-btn mt-2 mb-2" style="display: flex;">
+                    <a href="/admin/order/" class="fv-btn">Cập nhật</a>
+                </div>
+                <div class="contact-btn mt-2 mb-2" style="display: flex;">
+                   <a href="/admin/order" class="fv-btn">Quay về</a>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl-8">
+                <div class="our-important-note">
+                    <h2 class="section-title-3">Thông tin Đơn hàng - {{item.date}}</h2>                   
+                    <div class="table-content table-responsive mt-3">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox"/></th>
+                                    <th class="product-id">Id</th>
+                                    <th class="product-thumbnail">Image</th>
+                                    <th class="product-thumbnail">Title</th>
+                                    <th class="product-thumbnail">Quantity</th>
+                                    <th class="product-name">Price</th>                    
+                                    <th class="product-quantity">total</th>
+                            
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each item.idCart}}
+                                <tr>
+                                    <td><input type="checkbox" style="width:15px;height:15px"/></td>
+                                    <td>{{this.id}}</td>
+                                    <td><img src="/azshopweb/images/product/{{this.imgName}}" alt="product img" /></td>
+                                    <td>{{this.title}}</td>
+                                    <td>{{this.quantity}}</td>
+                                    <td>{{formatMoney this.salePrice}}</td>                                    
+                                    <td>{{formatMoney this.total}}</td>                            
+                                </tr> 
+                                {{/each}}
+                                <tr>
+                                    <td colspan="7" align="right"><strong>Tổng số tiền - {{formatMoney item.totals}}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                 
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function capnhatTrangthai(e){
+        console.log(e.value);
+        let id = document.getElementById("idOrder").value;
+        document.getElementById("capnhat").innerHTML = `
+            <a href="/admin/orderDetails/${id}/${e.value}" class="fv-btn">Cập nhật</a>
+        `;
+    }
+</script>

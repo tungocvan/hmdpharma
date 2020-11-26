@@ -1,0 +1,72 @@
+<!-- Start Login Register Area -->
+
+{{!-- <div class="htc__login__register bg__white ptb--130" style="background: rgba(0, 0, 0, 0) url(/azshopweb/images/bg/5.jpg) no-repeat scroll center center / cover ;">
+     <p>Email: {{profile.email}}</p>
+     <p><a href="/register/logout">Đăng Xuất</a></p>
+</div> --}}
+
+<!-- End Login Register Area --> 
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-xl-3 col-md-12 col-12">
+            <div class="blod-details-right-sidebar">
+                <div class="our-category-area mt--60">
+                    <h2 class="section-title-2">HI! {{profile.firstName}}</h2>
+                    <ul class="categore-menu">
+                        <li>
+                            <a href="/register/info"><i class="zmdi zmdi-caret-right"></i>Thông tin tài khoản</a>
+                        </li>
+                        <li>
+                            <a href="/register/order"><i class="zmdi zmdi-caret-right"></i>Theo dõi đơn hàng</a>
+                        </li>
+                        <li>
+                            <a href="/register/wishlist"><i class="zmdi zmdi-caret-right"></i>Sản phẩm yêu thích</a>
+                        </li>
+                        <li>
+                            <a href="/register/history"><i class="zmdi zmdi-caret-right"></i>Lịch sử giao dịch</a>
+                        </li>
+                        <li>
+                            <a href="/register/logout"><i class="zmdi zmdi-caret-right"></i>Đăng xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 col-xl-9 col-md-12 col-12">
+            <div class="blog-details-left-sidebar mrg-blog">
+                <div class="blog-details-top">
+                    <div class="our-reply-form-area mt--20">
+                        {{#if info}}
+                         <h2 class="section-title-2">{{slug}}</h2>
+                        {{> account/info}} 
+                        {{/if}}
+                        {{#if order}}
+                         <h2 class="section-title-2">{{slug}}</h2>
+                        {{> account/order}} 
+                        {{/if}}
+                        {{#if orderDetails}}
+                         <h2 class="section-title-2">{{slug}}</h2>
+                        {{> account/orderDetails}} 
+                        {{/if}}
+                        {{#if wishlist}}
+                         <h2 class="section-title-2">{{slug}}</h2>
+                        {{> account/wishlist}} 
+                        {{/if}}
+                        {{#if history}}
+                         <h2 class="section-title-2">{{slug}}</h2>
+                        {{> account/history}} 
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded',function(){        
+           
+        
+    })
+</script>

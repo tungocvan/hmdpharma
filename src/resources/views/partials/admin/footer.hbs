@@ -1,0 +1,136 @@
+<div class="container">
+    <div class="row">
+      <div class="col-lg-12 col-xl-12 col-md-12 col-12">
+          
+          
+          
+                <h2>Cấu hình Categories</h2>
+                <p style="display:flex;justify-content:center">
+                    <select name="demoSel[]" id="demoSel" size="4" multiple>
+                        <option value="scroll">Scrolling Divs JavaScript</option>
+                        <option value="tooltip">JavaScript Tooltips</option>
+                        <option value="con_scroll">Continuous Scroller</option>
+                        <option value="banner">Rotating Banner JavaScript</option>
+                        <option value="random_img">Random Image PHP</option>
+                        <option value="form_builder">PHP Form Generator</option>
+                        <option value="table_class">PHP Table Class</option>
+                        <option value="order_forms">PHP Order Forms</option>
+                    </select>
+                    
+                    <button id="btnAdd">Add</button>
+                    <button id="btnRemove">Remove</button>
+                    <select name="recvie[]" id="recvie" size="4" multiple onchange="choose(this)"></select>
+                    
+                </p>
+                <div class="mt-2">
+                    <textarea name="display" id="display" placeholder="view select list value(s) onchange" cols="20" rows="4" readonly hidden></textarea>
+                </div>
+            <form action="#" method="post" id="demoForm" class="demoForm">
+                <input name="saveCate" id="saveCate" type="text" hidden />
+                <input type="submit" value="Submit"/>        
+            </form>
+      </div>
+    </div>
+</div>
+<script>
+    var myCate = [];
+    var strOpt='';
+    var strRecive = '';
+    var strInput='';
+
+    document.addEventListener('DOMContentLoaded',function(){        
+    var recvie = document.getElementById('recvie');    
+          // anonymous function onchange for select list with id demoSel
+    document.getElementById('demoSel').onchange = function(e) {
+        // get reference to display textarea
+        var display = document.getElementById('display');        
+        display.innerHTML = ''; // reset        
+        // callback fn handles selected options
+        getSelectedOptions(this, callback);        
+        // remove ', ' at end of string
+        strInput = display.innerHTML.slice(0, -2);
+        display.innerHTML = strInput;
+              
+        
+    };
+
+    document.getElementById('recvie').onchange = function(e) {
+        var display = document.getElementById('display');
+        display.innerHTML = ''; // reset
+        getSelectedOptions(this, callback);        
+        // remove ', ' at end of string
+        strRecive = display.innerHTML.slice(0, -2);
+        console.log(strRecive);
+    }
+
+    document.getElementById('btnRemove').onclick = function(e) {
+        let strReciveArr = strRecive.split(',');
+        for(let i=0;i<strReciveArr.length;i++){
+            let index = myCate.indexOf(strReciveArr[i]);
+            myCate.splice(index,1);
+        
+        }
+        strOpt = '';
+        for(let i=0;i<myCate.length;i++){
+            strOpt = strOpt + `<option value="${myCate[i]}">${myCate[i]}</option>`;
+        }
+        recvie.innerHTML = strOpt;
+        display.value = strOpt;
+        return false;
+    }
+    document.getElementById('btnAdd').onclick = function(e) {
+        //e.preventDefault();
+        $('#saveCate').val('s');
+  
+        let strArr = strInput.split(',');
+        for(let i=0;i<strArr.length;i++){
+            if(myCate.indexOf(strArr[i]) === -1){
+                myCate.push(strArr[i]);
+                strOpt = strOpt + `<option value="${strArr[i]}">${strArr[i]}</option>`;
+            }
+        }
+                
+        recvie.innerHTML = strOpt; 
+        
+        //return false;
+    }
+
+   
+
+    })
+    function getSelectedOptions(sel, fn) {
+    var opts = [], opt;
+    
+    // loop through options in select list
+    for (var i=0, len=sel.options.length; i<len; i++) {
+        opt = sel.options[i];
+        
+        // check if selected
+        if ( opt.selected ) {
+            // add to array of option elements to return from this function
+            opts.push(opt);
+            
+            // invoke optional callback function if provided
+            if (fn) {
+                fn(opt);
+            }
+        }
+    }
+    
+    // return array containing references to selected option elements
+    return opts;
+    }
+
+    function callback(opt) {
+    // display in textarea for this example
+    var display = document.getElementById('display');
+    display.innerHTML += opt.value + ', ';
+
+    // can access properties of opt, such as...
+    //alert( opt.value )
+    //alert( opt.text )
+    //alert( opt.form )
+    }
+
+
+</script>

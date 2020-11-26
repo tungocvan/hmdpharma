@@ -1,0 +1,138 @@
+ <div class="container">
+    <div class="row">
+      <div class="col-lg-2 col-xl-2 col-md-12 col-12">
+          <nav id="navSidebar" class="sidebar">
+            <div class="text">
+                <a href="/admin" class="text">Dashboard</a>
+            </div> 
+            <ul>
+                <li class="active"><a href="/admin/menuTop">Thiết lập Menu Top</a></li>
+                <li><a href="/admin/footer">Thiết lập Footer</a></li>
+                <li>
+                        
+                        <a href="#" class="feat-btn">Sản Phẩm <span class="fas fa-caret-down first"></span></a>
+                        <ul class="feat-show">
+                            <li>
+                                  <a href="/admin/product">Sản phẩm</a>
+                            </li>
+                            <li>
+                                  <a href="/admin/product/createProduct">Tạo sản phẩm</a>
+                            </li>
+                            <li>
+                                <a href="/admin/product/createCategory">Tạo Danh mục</a>
+                            </li>
+                        </ul>
+                </li>
+                <li>
+                        <a href="#" class="serv-btn">Quản trị Bài viết
+                            <span class="fas fa-caret-down second"></span>
+                        </a>
+                        <ul class="serv-show">
+                            <li><a href="/admin/post/listPost">Danh sách Bài Viết</a></li>
+                            <li><a href="/admin/post/createPost">Viết bài</a></li>
+                            <li><a href="/admin/post/categoryPost">Chuyên mục</a></li>
+                        </ul>
+                </li>
+                <li><a href="/admin/order">Theo Dõi Đơn Hàng</a></li>
+                <li><a href="/admin/account">Quản trị Tài khoản</a></li>
+                <li><a href="/logout">Đăng xuất Tài khoản</a></li>
+
+            </ul>
+        </nav>
+      </div>
+      <div id="content" class="col-lg-12 col-xl-12 col-md-12 col-12">
+          <div class="content">
+              <div class="blog-details-left-sidebar mrg-blog">
+                  <div class="blog-details-top">
+                      <div class="our-reply-form-area mt--20">
+                          {{#if product}}
+                          <h2 class="section-title-2">PRODUCT</h2>
+                          {{> admin/product}}
+                          {{/if}}
+                          {{#if createProduct}}
+                          <h2 class="section-title-2">createProduct</h2>
+                          {{> admin/createProduct}}
+                          {{/if}}
+                          {{#if createCategory}}
+                          <h2 class="section-title-2">createCategory</h2>
+                          {{> admin/createCategory}}
+                          {{/if}}
+                          {{#if updateProduct}}
+                          <h2 class="section-title-2">updateProduct</h2>
+                            {{> admin/updateProduct}}
+                          {{/if}}
+                          {{#if menuTop}}
+                          <h2 class="section-title-2">menuTop</h2>
+                            {{> admin/menuTop}}
+                          {{/if}}
+                          {{#if order}}
+                          <h2 class="section-title-2">order</h2>
+                            {{> admin/order}}
+                          {{/if}}
+                          {{#if orderDetails}}
+                          <h2 class="section-title-2">order</h2>
+                            {{> admin/orderDetails}}
+                          {{/if}}
+                          {{#if account}}
+                          <h2 class="section-title-2">account</h2>
+                            {{> admin/account}}
+                          {{/if}}
+                          {{#if createAccount}}
+                          <h2 class="section-title-2">createAccount</h2>
+                            {{> admin/createAccount}}
+                          {{/if}}
+                          {{#if editAccount}}
+                          <h2 class="section-title-2">editAccount</h2>
+                            {{> admin/editAccount}}
+                          {{/if}}
+                          {{#if listPost}}
+                          <h2 class="section-title-2">listPost</h2>
+                            {{> admin/listPost}}
+                          {{/if}}
+                          {{#if createPost}}
+                          <h2 class="section-title-2">createPost</h2>
+                            {{> admin/createPost}}
+                          {{/if}}
+                          {{#if categoryPost}}
+                          <h2 class="section-title-2">categoryPost</h2>
+                            {{> admin/categoryPost}}
+                          {{/if}}
+                          {{#if updatePost}}
+                          <h2 class="section-title-2">updatePost</h2>
+                            {{> admin/updatePost}}
+                          {{/if}}
+                          {{#if footer}}
+                          <h2 class="section-title-2">Footer Config</h2>
+                            {{> admin/footer}}
+                          {{/if}}
+                      </div>
+                  </div>
+            
+              </div>
+          </div>
+      </div>
+    </div>
+</div>
+<script>
+    $('.btnAdmin').click(function(){
+      $(this).toggleClass("click");
+     // $('.ti-close').toggleClass("ti-close");
+      //$('.ti-menu').toggleClass("ti-close");
+      //$('.ti-menu').toggleClass("ti-menu");
+       $('.sidebar').toggleClass("show");
+       $('#content').toggleClass('col-lg-12 col-xl-12'); 
+       $('#content').toggleClass('col-lg-10 col-xl-10');      
+    });
+    $('.feat-btn').click(function(){
+      $('nav ul .feat-show').toggleClass("show");
+      $('nav ul .fas fa-bars').toggleClass("rotate");
+    });
+    $('.serv-btn').click(function(){
+      $('nav ul .serv-show').toggleClass("show1");
+      $('nav ul .second').toggleClass("rotate");
+    });
+    $('nav ul li').click(function(){
+      $(this).addClass("active").siblings().removeClass("active");
+      
+    });
+</script>

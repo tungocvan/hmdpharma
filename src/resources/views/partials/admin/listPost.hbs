@@ -1,0 +1,36 @@
+<div class="contact-btn mt-2 mb-2" style="display: flex;">
+     <a href="/admin/post/createPost" class="fv-btn">Thêm Bài viết</a>
+</div>
+<div class="table-content table-responsive mt-3">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox"/></th>
+                <th class="product-id">Id</th>
+                <th class="product-thumbnail">Image</th>
+                <th class="product-name">Title</th>  
+                <th class="product-quantity">Category</th>
+                <th class="product-subtotal">Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {{#each items}}
+            <tr>
+                <td><input type="checkbox" style="width:15px;height:15px"/></td>
+                <td class="product-id">{{this.id}}</td>
+                <td class="product-thumbnail">
+                    <a href="#"><img src="/azshopweb/images/post/{{this.imgName}}" alt="product img" /></a>
+                </td>
+                <td class="product-name"><a href="{{this.id}}">{{this.title}}</a></td>               
+                <td class="product-quantity">{{this.category}}</td>
+                <td class="product-subtotal">
+                    <a href="/admin/post/listPost/{{this.id}}/delete">Delete | </a>
+                    <a href="/admin/post/createPost/{{this.id}}/edit">Edit</a>
+                    <a href="/admin/post/listPost/{{this.id}}/copy">Copy</a>
+                </td>
+         
+            </tr> 
+            {{/each}}
+        </tbody>
+    </table>
+</div> 

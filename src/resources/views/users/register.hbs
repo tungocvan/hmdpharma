@@ -1,0 +1,35 @@
+<div class="main">
+<form action="/users/register" method="post" class="form" id="frmSign">
+    <h3 class="heading">Đăng ký tài khoản</h3>
+    
+    <div class="spacer"></div>
+
+    <div class="form-group">
+            <label for="fullname" class="form-label">Tên đầy đủ</label>
+            <input id="fullname" name="fullname" type="text" placeholder="VD: Từ Ngọc Vân" class="form-control" value="{{user.firstName}}">
+            <span class="form-message"></span>
+    </div>
+
+    <div class="form-group">
+    <label for="username" class="form-label">Email</label>
+    <input id="username" name="email" type="text" placeholder="VD: tungocvan@gmail.com" class="form-control" value="{{user.email}}">
+    <span class="form-message">{{{error}}}</span>
+    </div>
+
+    <div class="form-group">
+    <label for="password" class="form-label">Mật khẩu</label>
+    <input id="password" name="password" type="password" placeholder="Nhập mật khẩu" class="form-control" value="{{user.password}}">
+    <span class="form-message"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
+        <input id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu" type="password" class="form-control" value="{{user.confirmPassword}}">
+        <span class="form-message"></span>
+    </div>
+    {{!-- <button class="form-submit">Đăng nhập</button> --}}
+    <input class="form-submit" type="submit" value="Đăng ký tài khoản">
+    <a class="form-submit" href="/users/login" style="display:block;width:100%;text-decoration: none;">Đăng nhập</a>
+
+</form>
+</div>

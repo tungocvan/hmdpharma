@@ -1,0 +1,88 @@
+<!-- Start Login Register Area -->
+
+<div class="htc__login__register bg__white ptb--130" style="background: rgba(0, 0, 0, 0) url(/azshopweb/images/bg/5.jpg) no-repeat scroll center center / cover ;">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto">
+                <ul class="login__register__menu nav" role="tablist">
+                    <li role="presentation" class="login "><a class="{{isLog}}" href="#login" role="tab" data-toggle="tab">Login</a></li>
+                    <li role="presentation" class="register"><a class="{{isReg}}" href="#register" role="tab" data-toggle="tab">Register</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Start Login Register Content -->
+        
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto">
+                <div class="htc__login__register__wrap">
+                    <!-- Start Single Content -->                     
+                    <div id="login" role="tabpanel" class="single__tabs__panel tab-pane fade {{isLog}}">
+                        <form method="post" action="/register">
+                        <div class="login">
+                            <input type="text" placeholder="Email*" name="email">
+                            <input type="password" placeholder="Password*" name="password">
+                        </div>
+                        <div class="tabs__checkbox">
+                            <input type="checkbox" name="remember">
+                            <span> Remember me</span>
+                            <span class="forget"><a href="#">Forget Pasword?</a></span>
+                        </div>
+                        <div class="htc__login__btn mt--30">
+                           <button type="submit" class="myBtn">Login</button>
+                        </div>
+                        <div class="htc__social__connect">
+                            <h2>Or Login With</h2>  
+                            <ul class="htc__soaial__list">
+                                <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+
+                                <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+
+                                <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+
+                                <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                            </ul>
+                        </div>
+                        </form>
+                    </div>
+                    
+                    <!-- End Single Content -->
+                    <!-- Start Single Content -->
+                    
+                    <div id="register" role="tabpanel" class="single__tabs__panel tab-pane fade {{isReg}}">
+                        <form method="post" action="/register">
+                        <div class="login">
+                            <input type="text" placeholder="Name*" name="firstName">
+                            <input type="email" placeholder="Email*" name="email">
+                            <input type="password" placeholder="Password*" name="password">
+                        </div>
+                        <div class="tabs__checkbox">
+                            <input type="checkbox" name="remember">
+                            <span> Remember me</span>
+                        </div>
+                        <div class="htc__login__btn">
+                            <button type="submit" class="myBtn">register</button>
+                        </div>
+                        <div class="htc__social__connect">
+                            <h2>Or Login With</h2>
+                            <ul class="htc__soaial__list">
+                                <li><a class="bg--twitter" href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+                                <li><a class="bg--instagram" href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+                                <li><a class="bg--facebook" href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+                                <li><a class="bg--googleplus" href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                            </ul>
+                        </div>
+                        </form>
+                    </div>
+                    
+                    <!-- End Single Content -->
+                </div>
+            </div>
+        </div>
+  
+        <!-- End Login Register Content -->
+    </div>
+
+</div>
+
+<!-- End Login Register Area --> 

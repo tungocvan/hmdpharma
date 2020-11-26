@@ -1,0 +1,262 @@
+<div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-xl-12">
+                <div class="checkout-form">  
+                    <form method="POST" action="/admin/updateProduct">               
+                        <div class="checkout-form-inner">
+                            <div class="single-checkout-box">
+                                <input type="text" placeholder="Tên sản phẩm" name="title" style="width:60%" value="{{item.title}}">                               
+                                <input type="text" placeholder="Giá sản phẩm" name="price" style="width:15%" value="{{item.price}}">                               
+                                <input type="text" placeholder="Giá Giảm phẩm" name="salePrice" style="width:15%" value="{{item.salePrice}}">                               
+                            </div>
+                            <div class="single-checkout-box">                                
+                                <div id="summernote"></div>
+                                <input type="text" name="description" id="description" value="{{item.description}}" hidden/>
+                            </div>
+                            <div class="single-checkout-box select-option mt-4">                                
+                                <select style="width:30%" onchange="chooseCategory(this)">
+                                    
+                                    <option>Chuyên mục sản phẩm</option>
+                                    {{#each myCategory}}     
+                                         <option value="{{this.name}}">{{this.name}}</option>                               
+                                                                                                               
+                                    {{/each}}       
+                                                
+                                </select>
+                                <div id="itemCate" style="display:inline">
+                                    {{#each category}}
+                                    <span onclick="delCate(this,'{{this}}')" style="color:white;background-color:gray;padding:5px;margin-right:2px;cursor:pointer">{{this}} <i class="zmdi zmdi-close"></i></span>
+                                    {{/each}}
+                                </div>
+                            </div>
+                            <div id="category">
+                                <input name="category"  type="text" value="{{item.category}}" hidden>
+                            </div>
+
+                            <div class="single-checkout-box select-option mt-2">
+                                <input id="strSeo" style="margin-bottom:10px!important" type="text" onchange="chooseSeo(this)" placeholder="Từ khóa SEO - các từ khóa cách nhau dấu ; có thể copy dán vào" name="seo" style="width:60%" value="{{item.seo}}" >                              
+                                <div id="seo">                
+                                </div>
+                            </div>
+
+                            <div class="single-checkout-box select-option mt-4">                                
+                              
+                                <select style="width:20%" name="dvt">
+                                    <option>Đơn vị tính</option>
+                                    {{#each myDvt}} 
+                                    {{#ifCond this "==" @root.item.dvt}}  
+                                            <option selected="selected" value="{{this}}">{{this}}</option> 
+                                        {{else}}
+                                            <option value="{{this}}">{{this}}</option>
+                                        {{/ifCond}} 
+                                    
+                                    {{/each}}
+                                </select>   
+                            
+                                <input class="myDate" type="date"  name="date" value="{{item.date}}"  style="width:20%">                           
+                                <input type="text" placeholder="Id video youtube" name="idVideo" style="width:25%" value="{{item.idVideo}}">
+                            </div>
+                            <h2 class="section-title-2">Ảnh đại diện</h2>                            
+                            <div class="single-checkout-box mt-2">                               
+                               <input id="img" type="file" onchange="fileupload(this)">
+                               <div style="position: relative;width:150px;" class="mt-2">
+                                <img id="preview" style="width:150px;height:150px" src="/azshopweb/images/product/{{item.imgName}}">
+                                <span onclick="hideImg()"><i id="delete" style="position: absolute;right:0;top:0;padding:5px;color: cyan;" class="remove__btn zmdi zmdi-close"></i></span>
+                               </div>
+                               <input id="imgName" name="imgName"  type="text" value="{{item.imgName}}" hidden>
+                               <input name="id"  type="text" value="{{item.id}}" hidden>
+                               {{!-- <img width="150px" src="/azshopweb/images/product/4.png" alt="product img">                                                               --}}
+                            </div>
+                            <h2 class="section-title-2">Album Ảnh</h2>
+                            <div class="single-checkout-box mt-2">                               
+                               <input id="imgInput" type="file" onchange="fileuploadMulti(this)">
+                               <div  class="mt-2">
+                                <div id="previewAlbum" style="height:120px;">
+                                    {{#each album}}
+                                    <img id="{{@index}}" style="width:120px;height:120px" src="/azshopweb/images/product/{{this}}">    
+                                    <span onclick="hideImgAlbum({{@index}},'{{this}}')" id="del-{{@index}}"><i style="padding:5px;color: cyan;" class="remove__btn zmdi zmdi-close"></i></span>
+                                    {{/each}}
+                                </div>                                 
+                                
+                               </div>
+                               <input id="imgAlbum" name="imgAlbum"  type="text" value="{{item.imgAlbum}}" hidden> 
+                            </div>
+                        </div> 
+                        <div class="contact-btn mt-2 mb-2">
+                            <button type="submit" class="fv-btn">LƯU</button>
+                        </div>
+                    </form>  
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<script>
+        var albumImg = [];
+        let album = document.getElementById('imgAlbum').value;
+        var category = document.querySelector('#category input').value.split(',');
+        var seo = document.querySelector('#strSeo').value.split(',');    
+        chooseSeo(seo);    
+        if(album !=='') albumImg = album.split(',');
+        //console.log('albumImg:',albumImg);
+        var idImg = 0;
+        var right = 0;
+        function fileupload(input){
+            console.log('fileupload():',input.files[0]);
+            var dirDes = "/public/azshopweb/images/product/"; 
+            const data = input.files[0];            
+            let reader = new FileReader();    
+            reader.onload = function() {
+                var newData  = {
+                    'lastModified'     : data.lastModified,
+                    'lastModifiedDate' : data.lastModifiedDate,
+                    'name'             : data.name,
+                    'tmp_name'         : reader.result,
+                    'size'             : data.size,
+                    'type'             : data.type,
+                    'des'              : dirDes
+                };
+                var preview = document.querySelector('#preview');      
+                //var image = new Image();
+                //image.height = 150;       
+                //image.title = data.name;
+                //image.src = reader.result;                        
+                //preview.appendChild(image);                 
+                preview.title = data.name;
+                preview.src = reader.result;                
+                document.querySelector('#preview').style.display='inline';   
+                document.querySelector('#delete').style.display='block';
+                document.getElementById('imgName').value = data.name;
+                $.post("/admin/upload",newData,
+                    function(data,status){
+                        console.log("Data: " + data + "\nStatus: " + status);
+                });
+            }
+            reader.onerror = function() {
+                console.log('error:',reader.error);
+            };
+            if (data) reader.readAsDataURL(data);
+        }    
+
+        function hideImg(){
+             document.querySelector('#preview').style.display='none';   
+             document.querySelector('#delete').style.display='none';
+             document.querySelector('#img').value='';
+             document.querySelector('#imgName').value='';
+        }
+
+        
+        function hideImgAlbum(id,name){          
+            document.getElementById(id).remove();
+            document.getElementById("del-"+id).remove();
+            document.getElementById("imgInput").value='';
+            console.log(albumImg.indexOf(name));
+            albumImg.splice(albumImg.indexOf(name),1);
+            document.getElementById('imgAlbum').value = albumImg.toString();
+           
+        }
+
+         
+        function fileuploadMulti(input){
+            idImg = idImg +1;
+            if(right !==0 ) right = right + 120;
+            console.log('fileupload():',input.files[0]);
+            var dirDes = "/public/azshopweb/images/product/"; 
+            const data = input.files[0];            
+            let reader = new FileReader();    
+            reader.onload = function() {
+                var newData  = {
+                    'lastModified'     : data.lastModified,
+                    'lastModifiedDate' : data.lastModifiedDate,
+                    'name'             : data.name,
+                    'tmp_name'         : reader.result,
+                    'size'             : data.size,
+                    'type'             : data.type,
+                    'des'              : dirDes
+                };
+                var preview = document.querySelector('#previewAlbum');                                
+                var image = new Image();
+                
+                image.height = 120;       
+                image.width = 120;       
+                image.title = data.name;
+                image.id = idImg;
+                image.src = reader.result;                        
+                preview.appendChild(image);                 
+                $("#"+idImg.toString()).after(`<span onclick="hideImgAlbum(${idImg},'${data.name}')" id="del-${idImg}"><i style="padding:5px;color: cyan;" class="remove__btn zmdi zmdi-close"></i></span>`);               
+                
+                document.querySelector('#previewAlbum').style.display='inline';   
+                //document.querySelector('#deleteAlbum').style.display='block';
+                albumImg.push(data.name);
+                document.getElementById('imgAlbum').value = albumImg.toString();
+                
+                $.post("/admin/upload",newData,
+                    function(data,status){
+                        console.log("Data: " + data + "\nStatus: " + status);
+                });
+            }
+            reader.onerror = function() {
+                console.log('error:',reader.error);
+            };
+            if (data) reader.readAsDataURL(data);
+        }    
+
+        function chooseCategory(e){
+            if(category.indexOf(e.value) ===-1) {
+                category.push(e.value);
+                let strCate = category.toString();        
+               // console.log('category:',category);
+                $('#itemCate').append(`<span onclick="delCate(this,'${e.value}')" style="color:white;background-color:gray;padding:5px;margin-right:2px;cursor:pointer">${e.value} <i class="zmdi zmdi-close"></i></span>`);    
+                $('#category').html(`<input name="category"  type="text" value="${strCate}" hidden> `)
+            }
+        }
+
+        function delCate(e,nameCate){
+            e.remove();
+            category.splice(category.indexOf(nameCate),1);
+            let strCate = category.toString();
+            $('#category').html(`<input name="category"  type="text" value="${strCate}" hidden> `)
+            console.log('xoa category:',category);
+        }
+
+        function chooseSeo(e){
+     
+                if(e.length === undefined)  seo = e.value.split(',');            
+                $('#seo').html('');
+                if(seo[0]!=="") {
+                    seo = Array.from(new Set(seo));
+                    for(let i=0;i<seo.length;i++){
+                        $('#seo').append(`<span onclick="delSeo(this,'${seo[i]}')" style="color:white;background-color:gray;padding:5px;margin-right:2px;cursor:pointer">${seo[i]} <i class="zmdi zmdi-close"></i></span>`);
+                    } 
+                }
+                
+                           
+        }
+
+        function delSeo(e,nameCate){
+            e.remove();
+            seo.splice(seo.indexOf(nameCate),1);
+            let strSeo = seo.toString();
+            $('#strSeo').val(strSeo);
+        }
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded',function(){        
+           $('#summernote').summernote({
+               
+                placeholder: 'Mô tả sản phẩm',
+                tabsize: 2,
+                height: 200
+            });
+            var markupStr = document.getElementById('description').value;
+            $('#summernote').summernote('code',markupStr);
+            $('#summernote').on('summernote.change', function(we, contents, $editable) {
+             //console.log('contents:',$(this).summernote('code')); 
+             $("#description").attr("value",$(this).summernote('code'));
+
+          });         
+          //document.querySelector('#preview').src ='/public/azshopweb/images/product/1.png';
+    })
+</script>

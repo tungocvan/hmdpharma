@@ -1,0 +1,51 @@
+<!-- Start Header Style -->
+<header id='header' class='htc-header header--3 bg__white clearfix'>
+    <!-- Start Mainmenu Area -->
+    <div id='sticky-header-with-topbar' class='mainmenu__area sticky__header'>
+        <div class='container'>
+            <div class='row'>
+                <div class='col-md-6 col-lg-2 col-5'>
+                    <div class='logo'>
+                        <a href='/'>
+                            <img src='/azshopweb/images/logo/logo.png' alt='logo'>
+                        </a>
+                    </div>
+                </div>
+                <!-- Start MAinmenu Ares -->
+                <div class='col-md-8 col-lg-8 d-none d-lg-block'>
+                    {{> azshopweb/headerMenu }}
+                    <div class='mobile-menu clearfix d-none'>
+                     {{> azshopweb/headerMenuMobile }}   
+                    </div>                          
+                </div>
+                <!-- End MAinmenu Ares -->
+                <div class='col-md-6 col-lg-2 col-7'>  
+                    <ul class='menu-extra'>
+                        <li class='search search__open d-none d-md-block d-lg-block'><span class='ti-search'></span></li>
+                        <li><a href='/register'><span class='ti-user'></span></a></li>
+                        <li class='cart__menu'><span class='ti-shopping-cart'></span></li>
+                        <li class='toggle__menu d-none d-lg-block'><span class='ti-menu'></span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class='mobile-menu-area'></div>
+        </div>
+    </div>
+    <!-- End Mainmenu Area -->
+</header>
+<!-- End Header Style -->
+
+<div class='body__overlay'></div>
+<!-- Start Offset Wrapper -->
+<div class='offset__wrapper'>
+    <!-- Start Search Popap -->
+    {{> azshopweb/headerSearch }}
+    <!-- End Search Popap -->
+    <!-- Start Offset MEnu -->
+    {{> azshopweb/headerOffsetMenu }}
+    <!-- End Offset MEnu -->
+    <!-- Start Cart Panel -->
+    {{> azshopweb/headerCart }}
+    <!-- End Cart Panel -->
+</div>
+<!-- End Offset Wrapper -->

@@ -1,0 +1,138 @@
+<!-- Start Product Details -->
+<section class="htc__product__details product-details-style2 pt--120 pb--100 bg__white">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 col-xl-7 col-md-12 col-12">
+                <div class="product__details__container">
+                    <div class="product__big__images">
+                        <div class="portfolio-full-image tab-content">
+                            {{#each albumImg}}  
+                            {{#ifCond @index "==" 0 }}                           
+                            <div role="tabpanel" class="tab-pane fade show active product-video-position" id="img-tab-{{@index}}">
+                                <img src="/azshopweb/images/product/{{this}}" alt="full-image">
+                                <div class="product-video">
+                                    <a class="video-popup" href="https://www.youtube.com/watch?v={{@root.product.idVideo}}">
+                                        <i class="zmdi zmdi-videocam"></i> View Video
+                                    </a>
+                                </div>
+                            </div>
+                            {{else}}
+                            <div role="tabpanel" class="tab-pane fade product-video-position" id="img-tab-{{@index}}">
+                                <img src="/azshopweb/images/product/{{this}}" alt="full-image">
+                                <div class="product-video">
+                                    <a class="video-popup" href="https://www.youtube.com/watch?v={{product.idVideo}}">
+                                        <i class="zmdi zmdi-videocam"></i> View Video
+                                    </a>
+                                </div>
+                            </div>
+                            {{/ifCond}}
+                            {{/each}} 
+                        </div>
+                    </div>
+                    <!-- Start Small images -->
+                    <ul class="product__small__images nav" role="tablist">
+                        {{#each albumImg}}
+                        <li role="presentation" class="pot-small-img ">
+                            {{#ifCond @index "==" 0 }}
+                            <a class="active" href="#img-tab-{{@index}}" role="tab" data-toggle="tab">
+                                <img src="/azshopweb/images/product/{{this}}" alt="small-image">
+                            </a>
+                            {{else}}
+                            <a  href="#img-tab-{{@index}}" role="tab" data-toggle="tab">
+                                <img src="/azshopweb/images/product/{{this}}" alt="small-image">
+                            </a>
+                            {{/ifCond}}
+                        </li>
+                       {{/each}} 
+                    </ul>
+                    <!-- End Small images -->
+                </div>
+            </div>
+            <div class="col-lg-5 col-xl-5 col-md-12 col-12 smt-30 xmt-30">
+                <div class="htc__product__details__inner">
+                    <div class="pro__detl__title">
+                        <h2>{{product.title}}</h2>
+                    </div>
+                    <div class="pro__dtl__rating">
+                        <ul class="pro__rating">
+                            <li><span class="ti-star"></span></li>
+                            <li><span class="ti-star"></span></li>
+                            <li><span class="ti-star"></span></li>
+                            <li><span class="ti-star"></span></li>
+                            <li><span class="ti-star"></span></li>
+                        </ul>
+                        <span class="rat__qun">(Based on 0 Ratings)</span>
+                    </div>
+                    <div class="pro__details">
+                        {{{product.description}}}
+                    </div>
+                    <ul class="pro__dtl__prize">
+                        <li class="old__prize">VNĐ {{formatMoney product.price}}</li>
+                        <li>VNĐ {{formatMoney product.salePrice}}</li>
+                    </ul>
+                    <div class="pro__dtl__color">
+                        <h2 class="title__5">Choose Colour</h2>
+                        <ul class="pro__choose__color">
+                            <li class="red"><a href="#"><i class="zmdi zmdi-circle"></i></a></li>
+                            <li class="blue"><a href="#"><i class="zmdi zmdi-circle"></i></a></li>
+                            <li class="perpal"><a href="#"><i class="zmdi zmdi-circle"></i></a></li>
+                            <li class="yellow"><a href="#"><i class="zmdi zmdi-circle"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="pro__dtl__size">
+                        <h2 class="title__5">Size</h2>
+                        <ul class="pro__choose__size">
+                            <li><a href="#">xl</a></li>
+                            <li><a href="#">m</a></li>
+                            <li><a href="#">ml</a></li>
+                            <li><a href="#">lm</a></li>
+                            <li><a href="#">xxl</a></li>
+                        </ul>
+                    </div>
+                    <div class="product-action-wrap">
+                        
+                        <div class="product-quantity">
+                            <form id='myform' method='POST' action='/cart'>
+                                <div class="product-quantity">   
+                                    <div class="prodict-statas"><span>Quantity :</span>
+                                        <input style="width:45px;padding:5px" name="sl" id="quan-{{product.id}}"  type="number" value="1" onblur="changeQuantity({{product.id}})">                               
+                                    </div>                                 
+                                    <input type="text" name="id" value="{{product.id}}" hidden/>    
+                                </div> 
+                                <div class="pro__dtl__btn mt-2">
+                                    <input class="buy__now__btn" type="submit" value="Add cart" />
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="pro__social__share">
+                        <h2>Share :</h2>
+                        <ul class="pro__soaial__link">
+                            <li><a href="#"><i class="zmdi zmdi-twitter"></i></a></li>
+                            <li><a href="#"><i class="zmdi zmdi-instagram"></i></a></li>
+                            <li><a href="#"><i class="zmdi zmdi-facebook"></i></a></li>
+                            <li><a href="#"><i class="zmdi zmdi-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Product Details -->
+<script>
+    document.addEventListener('DOMContentLoaded',function(){        
+           
+        
+    })
+    function changeQuantity(id){
+        let sl = document.getElementById('quan-'+id).value; 
+        let newData = {
+            id:id,
+            sl:sl
+        }       
+        console.log('newData:',newData)
+    }
+</script>

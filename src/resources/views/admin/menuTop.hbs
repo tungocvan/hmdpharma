@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-xl-3 col-md-12 col-12">
+            <div class="blod-details-right-sidebar">
+                <div class="our-category-area mt--60">
+                    <h2 class="section-title-2">CATEGORY</h2>
+                    <ul class="categore-menu">
+                        <li>
+                            <a href="/admin/menuTop"><i class="zmdi zmdi-caret-right"></i>Thiết lập Menu Top</a>
+                        </li>
+                        <li>
+                            <a href="/admin/product"><i class="zmdi zmdi-caret-right"></i>Sản Phẩm</a>
+                            <ul class="subMenu">
+                                <li>
+                                    <a href="/admin/product/createProduct"><i class="zmdi zmdi-caret-right"></i>Tạo sản phẩm</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/product/createCategory"><i class="zmdi zmdi-caret-right"></i>Tạo Danh mục</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 col-xl-9 col-md-12 col-12">
+            <div class="blog-details-left-sidebar mrg-blog">
+                <div class="blog-details-top">
+                    <div class="our-reply-form-area mt--20">
+                        {{#if product}}
+                         <h2 class="section-title-2">PRODUCT</h2>
+                         {{> admin/product}}
+                        {{/if}}
+                        {{#if createProduct}}
+                         <h2 class="section-title-2">createProduct</h2>
+                         {{> admin/createProduct}}
+                        {{/if}}
+                        {{#if createCategory}}
+                         <h2 class="section-title-2">createCategory</h2>
+                         {{> admin/createCategory}}
+                        {{/if}}
+                        {{#if updateProduct}}
+                         <h2 class="section-title-2">updateProduct</h2>
+                          {{> admin/updateProduct}}
+                        {{/if}}
+                        {{#if menuTop}}
+                         <h2 class="section-title-2">menuTop</h2>
+                          {{> admin/menuTop}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded',function(){        
+           
+        
+    })
+</script>

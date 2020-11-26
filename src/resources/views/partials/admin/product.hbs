@@ -1,0 +1,38 @@
+<div class="contact-btn mt-2 mb-2" style="display: flex;">
+     <a href="/admin/product/createProduct" class="fv-btn">Thêm Sản phẩm</a>
+</div>
+<div class="table-content table-responsive mt-3">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox"/></th>
+                <th class="product-id">Id</th>
+                <th class="product-thumbnail">Image</th>
+                <th class="product-name">Title</th>
+                <th class="product-price">Price</th>
+                <th class="product-quantity">Category</th>
+                <th class="product-subtotal">Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {{#each items}}
+            <tr>
+                <td><input type="checkbox" style="width:15px;height:15px"/></td>
+                <td class="product-id">{{this.id}}</td>
+                <td class="product-thumbnail">
+                    <a href="#"><img src="/azshopweb/images/product/{{this.imgName}}" alt="product img" /></a>
+                </td>
+                <td class="product-name"><a href="{{this.id}}">{{this.title}}</a></td>
+                <td class="product-price"><span class="amount">{{formatMoney this.price}}</span></td>
+                <td class="product-quantity">{{this.category}}</td>
+                <td class="product-subtotal">
+                    <a href="/admin/productDelete/{{this.id}}">Delete | </a>
+                    <a href="/admin/updateProduct/{{this.id}}">Edit</a>
+                    <a href="/admin/copyProduct/{{this.id}}">Copy</a>
+                </td>
+         
+            </tr> 
+            {{/each}}
+        </tbody>
+    </table>
+</div> 

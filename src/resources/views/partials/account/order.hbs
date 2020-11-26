@@ -1,0 +1,42 @@
+<div class="table-content table-responsive mt-3">
+    <table>
+        <thead>
+            <tr>
+                <th><input type="checkbox"/></th>
+                <th class="product-id">Id</th>
+                <th class="product-thumbnail">email</th>
+                {{!-- <th class="product-thumbnail">firstName</th>
+                <th class="product-name">lastName</th>
+                <th class="product-price">phone</th> --}}
+                {{!-- <th class="product-quantity">address</th> --}}
+                <th class="product-quantity">totals</th>
+                <th class="product-quantity">date</th>
+                <th class="product-quantity">status</th>
+                <th class="product-subtotal">Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {{#each itemOrder}}
+            <tr>
+                <td><input type="checkbox" style="width:15px;height:15px"/></td>
+                <td>{{this.id}}</td>
+                <td>{{this.email}}</td>
+                {{!-- <td>{{this.firstName}}</td>
+                <td>{{this.lastName}}</td>
+                <td>{{this.phone}}</td> --}}
+                {{!-- <td>{{this.address}}</td> --}}
+                <td>{{formatMoney this.totals}}</td>
+                <td>{{this.date}}</td>
+                <td>
+                    {{this.status}}
+                </td>
+          
+                <td class="product-subtotal">
+                    <a href="/register/orderDetails/{{this.id}}">View</a>                                  
+                </td>
+         
+            </tr> 
+            {{/each}}
+        </tbody>
+    </table>
+</div>

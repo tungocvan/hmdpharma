@@ -1,0 +1,173 @@
+<div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-xl-12">
+                <div class="checkout-form">  
+                    <form method="POST" action="/admin/post/createPost/{{idEdit}}/create">               
+                        <div class="checkout-form-inner">
+                            <div class="single-checkout-box">
+                                <input type="text" placeholder="Tiêu đề bài viết" name="title" style="width:60%" value="{{item.title}}">                               
+                                
+                            </div>
+                            <div class="single-checkout-box">                                
+                                <div id="summernote"></div>
+                                <input type="text" name="description" id="description" value="{{item.description}}" hidden/>
+                            </div>
+                            <div class="single-checkout-box select-option mt-4">                                
+                                <select style="width:30%"  onchange="chooseCategory(this)">
+                                    <option>Chuyên mục Bài viết</option>
+                                    {{#each myCategory}}
+                                    {{#ifCond this.name "==" @root.item.category}}
+                                     <option selected="selected" value="{{this.name}}">{{this.name}}</option>
+                                    {{else}}  
+                                     <option value="{{this.name}}">{{this.name}}</option>
+                                     {{/ifCond}}
+                                     {{/each}}                     
+                                </select>
+                                 
+                                <div id="itemCate" style="display:inline"></div> 
+                                
+                            </div>
+                            <div id="category">   
+                                <input name="category"  type="text" value="{{item.category}}" hidden>                            
+                            </div>
+                            <div class="single-checkout-box select-option mt-2">
+                                <input id="strSeo" style="margin-bottom:10px!important" type="text" onchange="chooseSeo(this)" placeholder="Từ khóa SEO - các từ khóa cách nhau dấu ; có thể copy dán vào" name="seo" style="width:60%" value="{{item.seo}}" >                              
+                                {{!-- <button style="min-height:40px;padding:5px" >Thêm từ khóa</button> --}}
+                                <div id="seo">                                    
+                                </div>
+                            </div>
+                            
+                            
+                            <h2 class="section-title-2">Ảnh đại diện</h2>                            
+                            <div class="single-checkout-box mt-2">                               
+                               <input id="img" type="file" onchange="fileupload(this)">
+                               <div style="position: relative;width:150px;" class="mt-2">
+                                <img id="preview" style="width:150px;height:150px" src="/azshopweb/images/post/{{item.imgName}}">
+                                <span onclick="hideImg()"><i id="delete" style="position: absolute;right:0;top:0;padding:5px;color: cyan;" class="remove__btn zmdi zmdi-close"></i></span>
+                               </div>
+                               <input id="imgName" name="imgName" value="{{item.imgName}}"  type="text" hidden>
+                               {{!-- <img width="150px" src="/azshopweb/images/product/4.png" alt="product img">                                                               --}}
+                            </div>
+                           
+                        </div>
+                        <div class="contact-btn mt-2 mb-2">
+                            <button type="submit" class="fv-btn">LƯU</button>
+                        </div>
+                    </form>  
+                </div>
+            </div>
+        </div>
+</div>
+
+ 
+<script>
+        var albumImg = [];
+        var idImg = 0;
+        var right = 0;
+        var category = [];   
+        var seo = document.querySelector('#strSeo').value.split(',');    
+        chooseSeo(seo);
+        function fileupload(input){
+            console.log('fileupload():',input.files[0]);
+            var dirDes = "/public/azshopweb/images/post/"; 
+            const data = input.files[0];            
+            let reader = new FileReader();    
+            reader.onload = function() {
+                var newData  = {
+                    'lastModified'     : data.lastModified,
+                    'lastModifiedDate' : data.lastModifiedDate,
+                    'name'             : data.name,
+                    'tmp_name'         : reader.result,
+                    'size'             : data.size,
+                    'type'             : data.type,
+                    'des'              : dirDes
+                };
+                var preview = document.querySelector('#preview');      
+                //var image = new Image();
+                //image.height = 150;       
+                //image.title = data.name;
+                //image.src = reader.result;                        
+                //preview.appendChild(image);                 
+                preview.title = data.name;
+                preview.src = reader.result;                
+                document.querySelector('#preview').style.display='inline';   
+                document.querySelector('#delete').style.display='block';
+                document.getElementById('imgName').value = data.name;
+                $.post("/admin/upload",newData,
+                    function(data,status){
+                        console.log("Data: " + data + "\nStatus: " + status);
+                });
+            }
+            reader.onerror = function() {
+                console.log('error:',reader.error);
+            };
+            if (data) reader.readAsDataURL(data);
+        }    
+
+        function hideImg(){
+             document.querySelector('#preview').style.display='none';   
+             document.querySelector('#delete').style.display='none';
+             document.querySelector('#img').value='';
+             document.querySelector('#imgName').value='';
+        }
+
+    
+        function chooseCategory(e){
+            if(category.indexOf(e.value) ===-1) {
+                category.push(e.value);
+                let strCate = category.toString();        
+               // console.log('category:',category);
+                $('#itemCate').append(`<span onclick="delCate(this,'${e.value}')" style="color:white;background-color:gray;padding:5px;margin-right:2px;cursor:pointer">${e.value} <i class="zmdi zmdi-close"></i></span>`);    
+                $('#category').html(`<input name="category"  type="text" value="${strCate}" hidden> `)
+            }
+        }
+
+        
+        function chooseSeo(e){
+     
+                if(e.length === undefined)  seo = e.value.split(',');            
+                $('#seo').html('');
+                if(seo[0]!=="") {
+                    seo = Array.from(new Set(seo));
+                    for(let i=0;i<seo.length;i++){
+                        $('#seo').append(`<span onclick="delSeo(this,'${seo[i]}')" style="color:white;background-color:gray;padding:5px;margin-right:2px;cursor:pointer">${seo[i]} <i class="zmdi zmdi-close"></i></span>`);
+                    } 
+                }
+                
+                           
+        }
+
+        
+        function delCate(e,nameCate){
+            e.remove();
+            category.splice(category.indexOf(nameCate),1);
+            let strCate = category.toString();
+            $('#category').html(`<input name="category"  type="text" value="${strCate}" hidden> `)
+            console.log('xoa category:',category);
+        }
+
+        function delSeo(e,nameCate){
+            e.remove();
+            seo.splice(seo.indexOf(nameCate),1);
+            let strSeo = seo.toString();
+            $('#strSeo').val(strSeo);
+        }
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded',function(){        
+           $('#summernote').summernote({
+                placeholder: 'Nội dung bài viết',
+                tabsize: 2,
+                height: 200
+            });   
+            var markupStr = document.getElementById('description').value;
+             console.log('markupStr:',markupStr);
+             $('#summernote').summernote('code',markupStr);   
+            $('#summernote').on('summernote.change', function(we, contents, $editable) {
+             //console.log('contents:',$(this).summernote('code'));              
+             $("#description").attr("value",$(this).summernote('code'));
+
+          });  
+    })
+</script>

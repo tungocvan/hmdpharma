@@ -1,0 +1,46 @@
+<h1>ADMIN PAGE</h1>
+{{!-- <div class="panel-content">
+            <form action="/admin/uploadForm" method="post" enctype="multipart/form-data">  
+                <input type="file" name="name" />
+                <input type="submit" value="upload" />
+            </form>
+</div> --}}
+<input type="file" name="name"  onchange="fileupload(this)"/>
+<div id="preview"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+        
+        function fileupload(input){
+            console.log('fileupload():',input.files[0]);
+            var dirDes = "uploads/"; 
+            const data = input.files[0];            
+            let reader = new FileReader();    
+            reader.onload = function() {
+                var newData  = {
+                    'lastModified'     : data.lastModified,
+                    'lastModifiedDate' : data.lastModifiedDate,
+                    'name'             : data.name,
+                    'tmp_name'         : reader.result,
+                    'size'             : data.size,
+                    'type'             : data.type,
+                    'des'                  : dirDes
+                };
+                var preview = document.querySelector('#preview');      
+                var image = new Image();
+                image.height = 50;
+                image.title = data.name;
+                image.src = reader.result;
+                preview.appendChild(image);             
+
+                $.post("/admin/upload",newData,
+                    function(data,status){
+                        console.log("Data: " + data + "\nStatus: " + status);
+                });
+            }
+            reader.onerror = function() {
+                console.log('error:',reader.error);
+            };
+            if (data) reader.readAsDataURL(data);
+        }    
+ 
+</script>
