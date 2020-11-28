@@ -3,7 +3,19 @@ const Buffer = require('buffer/').Buffer;
 const path = require('path'); 
 const {addCssMenu} = require('../libs/myMenu');
 const {readJson ,ChangeToSlug, writeJson } = require('../libs/myFunction');
+function decodeBase64Image(dataString) {
+  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+    response = {};
 
+  if (matches.length !== 3) {
+    return new Error('Invalid input string');
+  }
+
+  response.type = matches[1];
+  response.data = new Buffer(matches[2], 'base64');
+
+  return response;
+}
 
 // function readJson(jsonFile) {
 //     let myCategory = fs.readFileSync(jsonFile,{encoding:'utf8', flag:'r'}); 
@@ -70,10 +82,13 @@ class AdminController {
      let img = files.tmp_name;
      let data = img.replace(/^data:image\/\w+;base64,/, "");
      let buf = new Buffer(data, 'base64');  
+     //let  buf = Buffer.from(data, 'base64');
+     //let imageBuffer = decodeBase64Image(data);
      fs.writeFile(t, buf, (err) => {
             if (err) throw err;
             res.json({"message":"Upload Ok !!!"});        
      }); 
+    
    
   } 
   createProduct(req, res) {
