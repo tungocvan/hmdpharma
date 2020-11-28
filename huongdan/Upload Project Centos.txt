@@ -7,7 +7,7 @@ rm -rf directory
     $ cd /opt/
     $ sudo mkdir app
     $ sudo chown your_app_user_name app
-    $ git clone  <link git> app
+    $ git clone  <link git> app //  git clone https://github.com/tungocvan/hmdpharma.git app
     $ cd app
     $ npm install
 
