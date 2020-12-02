@@ -5,7 +5,7 @@ class SiteController {
   index(req, res) {
          
     if(global.idCart){
-      res.locals.idCart = global.idCart;    
+      res.locals.idCart = global.idCart;     
       res.locals.totals = global.totals;
     }
     let tProduct = global.basedir + '/public/json/product.json';
