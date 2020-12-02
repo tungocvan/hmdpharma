@@ -1,13 +1,12 @@
-//const product = require('../libs/myProduct');
+const {readJson} = require('../libs/myFunction');
 class productDetailsController {
   // [GET] /
   index(req, res) {
     let id = req.params['id'];    
-
-    //let items = product.productById(id);
-    //console.log('global.product:',global.product);
+    let tProduct = global.basedir + '/public/json/product.json';
+    let productAll = readJson(tProduct);
     
-    let items = global.product.find(value => value.id == id); 
+    let items = productAll.find(value => value.id == id); 
     let albumImg = items.imgAlbum.split(',');  
     if(global.idCart){
        res.locals.idCart = global.idCart;    

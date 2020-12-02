@@ -12,7 +12,13 @@ class SiteController {
     let tCategory= global.basedir + '/public/json/category.json';
     let productAll = readJson(tProduct);
     let product = [];
+    let productMypham = [];
+    let productSuckhoe = [];
+    let isHome = false;
+    let applCate;
+    let isMypham = false;
     if(req.params.slug){      
+     
     productAll.forEach(value => {
          let category = value.category.split(',');
          category.forEach((cate)=>{
@@ -22,13 +28,24 @@ class SiteController {
          })
     })
     }else{
-      product = productAll;
+      isHome = true;
+      //product = productAll.splice(1,8);
+      productMypham = productAll.filter(value =>value.slug.includes("my-pham")).splice(0,8);
+      productSuckhoe = productAll.filter(value =>value.slug.includes("ho-tro-suc-khoe"));
     }
     let category = readJson(tCategory);  
-    let applCate = getCategoryByName(category,'my-pham');  
-    global.product = product;
-    global.applCate = applCate;
-    res.render('home',{ layout : 'layoutWebsite' ,product,applCate});
+    console.log('home:',req.params.slug);
+    if(req.params.slug === "ho-tro-suc-khoe"){
+        isMypham = false;
+    }else{
+      isMypham = true;
+    }
+    applCate = getCategoryByName(category,'my-pham'); 
+    // global.product = product;
+    // global.applCate = applCate;
+       
+    
+    res.render('home',{ layout : 'layoutWebsite' ,product,applCate,isHome,productMypham,productSuckhoe,isMypham});
   
     
     

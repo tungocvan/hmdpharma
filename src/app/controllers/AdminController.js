@@ -1,27 +1,22 @@
 const fs = require('fs');
 const Buffer = require('buffer/').Buffer;
-const path = require('path'); 
+//const path = require('path'); 
 const {addCssMenu} = require('../libs/myMenu');
 const {readJson ,ChangeToSlug, writeJson } = require('../libs/myFunction');
-function decodeBase64Image(dataString) {
-  var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
-    response = {};
 
-  if (matches.length !== 3) {
-    return new Error('Invalid input string');
+
+function cateToSlug(str) {
+  let slugProductArr = str.split(",");
+  let slugProduct = "";
+  for(let i=0; i<slugProductArr.length;i++){
+    if( i===slugProductArr.length-1){
+      slugProduct = slugProduct +  ChangeToSlug(slugProductArr[i]);
+    }else{
+      slugProduct = slugProduct +  ChangeToSlug(slugProductArr[i])+',';
+    }    
   }
-
-  response.type = matches[1];
-  response.data = new Buffer(matches[2], 'base64');
-
-  return response;
-}
-
-// function readJson(jsonFile) {
-//     let myCategory = fs.readFileSync(jsonFile,{encoding:'utf8', flag:'r'}); 
-//     let cate = JSON.parse(myCategory);
-//     return cate.data;
-// }            
+  return slugProduct;
+}            
 class AdminController {
   // [GET] /
   index(req, res) {
@@ -105,10 +100,10 @@ class AdminController {
             return item.id;
           })
           let idMax = Math.max(...idArray);
-          req.body.id = parseInt(idMax) + 1;           
+          req.body.id = parseInt(idMax) + 1;    
+          req.body.slug = cateToSlug(req.body.category) ;                            
           items.push(req.body);
           global.product = items;
-
           fs.writeFile(t,JSON.stringify({"data":items}), (err) => {
             if (err) throw err;
             return res.redirect('/admin/product');       
@@ -116,6 +111,7 @@ class AdminController {
           })      
      }else{
       req.body.id = 1;       
+      req.body.slug = cateToSlug(req.body.category) ;
       items.push(req.body); 
       global.product = items;
       fs.writeFile(t,JSON.stringify({"data":items}), (err) => {
@@ -123,6 +119,7 @@ class AdminController {
         res.redirect('/admin/product');       
       });
      }     
+
   }
   
   productDelete(req, res) {
@@ -159,6 +156,17 @@ class AdminController {
       let id = parseInt(req.body.id);
       let items = global.product;
       let index = items.findIndex(item => item.id == id);
+      // let slugProductArr = req.body.category.split(",");
+      // let slugProduct = "";
+      // for(let i=0; i<slugProductArr.length;i++){
+      //   if( i===slugProductArr.length-1){
+      //     slugProduct = slugProduct +  ChangeToSlug(slugProductArr[i]);
+      //   }else{
+      //     slugProduct = slugProduct +  ChangeToSlug(slugProductArr[i])+',';
+      //   }
+        
+      // }
+      req.body.slug = cateToSlug(req.body.category) ;
       items[index] = req.body;
       global.product = items;
       let t = global.basedir + '/public/json/product.json';

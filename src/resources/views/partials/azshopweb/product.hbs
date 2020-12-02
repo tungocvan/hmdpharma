@@ -1,8 +1,12 @@
 <!-- Start Our Product Area -->
+{{#if isHome}}
+{{> azshopweb/productSection}}
+{{else}}
 <section class="htc__product__area shop__page ptb--130 bg__white">
     <div class="container">
         <div class="htc__product__container">
             <!-- Start Product MEnu -->
+            {{#if  isMypham}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="filter__menu__container">
@@ -22,6 +26,28 @@
                     </div>
                 </div>  
             </div>
+            {{else}}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-tab-list">
+                                <!-- Nav tabs -->
+                                <ul class="tab-style nav product-tab-list-btn" role="tablist">
+                                    <li>
+                                        <a class="active" href="/ho-tro-suc-khoe" data-toggle="tab">
+                                            <div class="tab-menu-text">
+                                                <h4>Hỗ Trợ Sức Khỏe</h4>
+                                            </div>
+                                        </a>
+                                    </li>                                  
+                                </ul>
+                                <div class="all-product-btn">
+                                    <a href="/ho-tro-suc-khoe">Xem tất cả</a>
+                                </div>
+                    </div>
+                    
+                </div>  
+            </div>
+            {{/if}}
             <!-- Start Filter Menu -->
             {{!-- <div class="filter__wrap">
                 <div class="filter__cart">
@@ -139,6 +165,7 @@
         </div>
     </div>
 </section>
+{{/if}}
 <script>
     document.addEventListener('DOMContentLoaded',function(){        
         //let id = $('div[data-id]');
