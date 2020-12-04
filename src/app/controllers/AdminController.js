@@ -397,7 +397,7 @@ class AdminController {
     //var items =items;
     var tPost = global.basedir + '/public/json/post.json';
     var posts = [];
-    let idEdit = 0;
+    var idEdit = 0;
     var tCate = global.basedir + '/public/json/catepost.json';
     var myCategory = readJson(tCate);
     if (!fs.existsSync(tPost)) {
@@ -417,13 +417,16 @@ class AdminController {
       res.render('admin/admin',{ layout : 'layoutAdmin', listPost:true, items:posts});  
       break;
       case 'createPost':  
+      console.log('req.params.action:',req.params.action);
        
       if(req.params.action === "edit"){
         idEdit = req.params.id;
+          
         let item = posts.find(value => value.id == idEdit);
          res.render('admin/admin',{ layout : 'layoutAdmin',isEdit:true, createPost:true,summernote:true,myCategory,item,idEdit});
       }
       if(req.params.action === "create"){
+
         req.body.slug = ChangeToSlug(req.body.title);
         if(req.body.id != 1){
           let idArray = posts.map((item)=> { 
@@ -448,7 +451,7 @@ class AdminController {
       
       }
       if(req.params.action === undefined){
-      res.render('admin/admin',{ layout : 'layoutAdmin', createPost:true , summernote:true,myCategory}); 
+      res.render('admin/admin',{ layout : 'layoutAdmin', createPost:true , summernote:true,myCategory,idEdit:0}); 
       }
       break;
       case 'categoryPost': 

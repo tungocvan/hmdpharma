@@ -8,7 +8,7 @@ class postDetailsController {
     let post = posts.find(value => value.id == id);   
     res.render('postDetails',{ layout : 'layoutWebsite' , post ,  postDetails:true});
   } 
-
+ 
 }
 
 module.exports = new postDetailsController();
