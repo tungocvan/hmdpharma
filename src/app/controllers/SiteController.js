@@ -11,6 +11,7 @@ class SiteController {
     let tProduct = global.basedir + '/public/json/product.json';
     let tCategory= global.basedir + '/public/json/category.json';
     let productAll = readJson(tProduct);
+    global.product = productAll;
     let product = [];
     let productMypham = [];
     let productSuckhoe = [];
@@ -29,6 +30,7 @@ class SiteController {
     })
     }else{
       isHome = true;
+      
       //product = productAll.splice(1,8);
       productMypham = productAll.filter(value =>value.slug.includes("my-pham")).splice(0,8);
       productSuckhoe = productAll.filter(value =>value.slug.includes("ho-tro-suc-khoe"));
